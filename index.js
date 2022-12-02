@@ -10,31 +10,25 @@ fs.readdir(dir, (err, files) => {
         var r = Math.floor(Math.random() * files.length) + 1;
         if(names.indexOf(r) === -1) names.push(r);
     }
+    console.log(names)
 
 
-    let oldName = ''
-    for(let file of fileNames){
-        oldName = file.toString()
-        let newName = names[i].toString()
-
-        console.log(oldName)
-        console.log(newName)
+    for(let fls of fileNames){
+      //console.log(fls)
+      let oldName = `./data/left/${fls}`
+      let newName = `./data/left/${names[i]}.gif`
+      fs.rename(oldName, newName, err => {
+          if (err) {
+            throw err
+          }
         
-        fs.rename(oldName, newName, renameCallback)
-
-        function renameCallback(err){
-            if(err){
-                console.log(err.message)
-            }else {
-                console.log(`Renamed ${oldName} to ${newName}`)
-            }
-        }
-
-        i++
+          console.log('Directory renamed successfully.')
+        })
+      i++
     }
 
-    //console.log(names)
 });
+
 
 
 
