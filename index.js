@@ -7,23 +7,26 @@ const fileNames = fs.readdirSync(`./data/${pwd}`)
 const pseudoFileNames = fs.readdirSync(`./data/pseudo${pwd}`)
 
 
-for (let fls of fileNames) {
-    try {
-        fs.unlinkSync(`./data/${pwd}/${fls}`);
-    } catch (err) {
-        console.error(err);
+function reverseBack(){
+    for (let fls of fileNames) {
+        try {
+            fs.unlinkSync(`./data/${pwd}/${fls}`);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    for (let fls of pseudoFileNames) {
+        fs.copyFile(`./data/pseudo${pwd}/${fls}`, `./data/${pwd}/${fls}`, (err) => {
+            if (err) {
+                console.log(err.message)
+            }
+        })
     }
 }
 
-for (let fls of pseudoFileNames) {
-    fs.copyFile(`./data/pseudo${pwd}/${fls}`, `./data/${pwd}/${fls}`, (err) => {
-        if (err) {
-            console.log(err.message)
-        }
-    })
-}
 
 function changeFileNames() {
+    reverseBack()
     fs.readdir(dir, (err, files) => {
         let names = [], i = 0;
         while (names.length < files.length) {
@@ -36,8 +39,7 @@ function changeFileNames() {
             let newName = `./data/${pwd}/${names[i]}.gif`
             fs.rename(oldName, newName, err => {
                 if (err) {
-                    console.log("Ready to change.")
-                    throw err
+                    console.log("Reversed back to original, input this directory again to randomize.")
                 }
 
                 console.log(`Renamed ${fls} to ${newName} successfully.`)
