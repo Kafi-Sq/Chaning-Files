@@ -6,16 +6,22 @@ const pwd = prompt('Name of directory you want to alter: ');
 const fileNames = fs.readdirSync(`./data/${pwd}`)
 const pseudoFileNames = fs.readdirSync(`./data/pseudo${pwd}`)
 
-for(let fls of pseudoFileNames){
+
+for (let fls of fileNames) {
+    try {
+        fs.unlinkSync(`./data/${pwd}/${fls}`);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+for (let fls of pseudoFileNames) {
     fs.copyFile(`./data/pseudo${pwd}/${fls}`, `./data/${pwd}/${fls}`, (err) => {
-        if(err) {
+        if (err) {
             console.log(err.message)
-        }else {
-            console.log("done")
         }
     })
 }
-
 
 function changeFileNames() {
     fs.readdir(dir, (err, files) => {
@@ -30,6 +36,7 @@ function changeFileNames() {
             let newName = `./data/${pwd}/${names[i]}.gif`
             fs.rename(oldName, newName, err => {
                 if (err) {
+                    console.log("Ready to change.")
                     throw err
                 }
 
@@ -37,13 +44,11 @@ function changeFileNames() {
             })
             i++
         }
+        names = []
     });
 }
 
 changeFileNames()
-
-
-
 
 
 
