@@ -1,13 +1,13 @@
 const fs = require('fs');
 const prompt = require('prompt-sync')();
 
-//const pwd = prompt('Name of directory you want to alter(q to quit): ');
-const pwd = "right"
+const pwd = prompt('Name of directory you want to alter(q to quit): ');
+//const pwd = "right"
 const fileNames = fs.readdirSync(`./data/${pwd}`)
 const dir = `./data/${pwd}`;
 const pseudoFileNames = fs.readdirSync(`./data/pseudo${pwd}`)
 
-async function reverseBack() {
+function reverseBack() {
     for (let fls of fileNames) {
         try {
             fs.unlinkSync(`./data/${pwd}/${fls}`);
@@ -24,8 +24,9 @@ async function reverseBack() {
     }
 }
 
-async function changeFileNames() {
+function changeFileNames() {
     const time = new Date()
+    time.setDate(time.getDate()-10)
     fs.readdir(dir, (err, files) => {
         let names = [], i = 0;
         while (names.length < files.length) {
@@ -40,7 +41,7 @@ async function changeFileNames() {
             } catch (err) {
                 fs.closeSync(fs.openSync(`./data/${pwd}/${fls}`, 'w'));
             }
-            console.log(`Changed date to: ${new Date()}` )
+            console.log(`Changed date to: ${time}`)
 
             let oldName = `./data/${pwd}/${fls}`
             let newName = `./data/${pwd}/${names[i]}.gif`
@@ -63,4 +64,4 @@ if (fileNames[0] === "1.gif") {
     changeFileNames()
 }
 
-
+//changeFileNames()
