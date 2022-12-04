@@ -63,5 +63,3 @@ if (fileNames[0] === "1.gif") {
 } else {
     changeFileNames()
 }
-
-//changeFileNames()
