@@ -29,8 +29,9 @@ function run() {
             var r = Math.floor(Math.random() * files.length) + 1
             if (reOrder.indexOf(r) === -1) reOrder.push(r)
         }
+        console.log(reOrder)
         // Displaying how many files are in the current directory
-        console.log(`Number of files: ${files.length}`)
+        console.log(`Number of files in this directory: ${files.length}`)
         for (let curr of files) {
             // Setting the new date of files to 10 days in the past
             try {
@@ -39,7 +40,7 @@ function run() {
                 fs.closeSync(fs.openSync(`./data/${file}/${curr}`, 'w'))
             }
             console.log(`Changed date to: ${date}`)
-            // Changing the names of files to a sequential 1-n format
+            //Changing the names of files to a sequential 1-n format
             let prev = `./data/${file}/${curr}`
             let updated = `./data/${file}/${reOrder[i]}.gif`
             fs.rename(prev, updated, err => {
@@ -75,4 +76,4 @@ function undo() {
     }
 }
 
-run()
+undo()
